@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 
 const LANGUAGES = [
@@ -12,7 +11,7 @@ export default function LanguageSwitcher() {
   return (
     <select
       value={language}
-      onChange={(e) => setLanguage(e.target.value)}
+      onChange={(e) => setLanguage(e.target.value as 'en' | 'el')}
       className="language-switcher"
       aria-label="Select language"
     >

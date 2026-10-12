@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
 import LoginForm from './LoginForm';
 import LanguageSwitcher from './LanguageSwitcher';
