@@ -16,5 +16,11 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": [
+    "src/examples/nextjs",
+    "src/examples/nodejs",
+    "src/examples/python",
+    "src/examples/login"
+  ]
 }
