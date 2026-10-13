@@ -1,9 +1,12 @@
-# React Examples Viewer
+# Examples Viewer
 
-Live preview + code viewer for modular React examples.
+Multi-language / multi-framework examples gallery with live preview (where possible) and code viewer.
 
-## Login Example
-Shows a clean, modular login page with language support (EN/EL).
+Supported stacks:
+- **React** — modular login with i18n + design tokens (live preview)
+- **Next.js** — App Router login, API route, middleware
+- **Node.js / Express** — API endpoints, routing, auth middleware
+- **Python / FastAPI** — typed models, routes, dependencies
 
 ## Run locally
 ```bash
@@ -12,4 +15,4 @@ npm run dev
 ```
 
 ## Deploy
-Ready for Vercel (Vite framework).
+Vercel-ready (Vite + React viewer).
