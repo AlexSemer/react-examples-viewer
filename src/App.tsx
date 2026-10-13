@@ -3,6 +3,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import LoginPage from './examples/react/login/components/LoginPage'
 import { LanguageProvider } from './examples/react/login/i18n/LanguageContext'
+import DocumentationPage from './pages/DocumentationPage'
 
 // Raw imports for React login
 import loginPageSrc from './examples/react/login/components/LoginPage.tsx?raw'
@@ -27,6 +28,7 @@ import pyMainSrc from './examples/python/main.py?raw'
 import pyRoutesSrc from './examples/python/routes.py?raw'
 
 type Stack = 'react' | 'nextjs' | 'nodejs' | 'python';
+type Page = 'components' | 'docs';
 
 const stacks: Record<Stack, { label: string; files: { name: string; code: string; lang: string }[] }> = {
   react: {
@@ -66,6 +68,7 @@ const stacks: Record<Stack, { label: string; files: { name: string; code: string
 };
 
 export default function App() {
+  const [page, setPage] = useState<Page>('components')
   const [stack, setStack] = useState<Stack>('react')
   const [activeFile, setActiveFile] = useState(0)
 
@@ -79,50 +82,76 @@ export default function App() {
 
   return (
     <div className="app">
-      <div className="preview">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
-          <h2 style={{ margin: 0 }}>Examples Viewer</h2>
-          <select
-            value={stack}
-            onChange={(e) => handleStackChange(e.target.value as Stack)}
-            className="language-switcher"
-            aria-label="Select language / framework"
+      <aside className="sidebar">
+        <div className="sidebar-title">Examples Viewer</div>
+        <nav>
+          <button
+            className={page === 'components' ? 'nav-item active' : 'nav-item'}
+            onClick={() => setPage('components')}
           >
-            {(Object.keys(stacks) as Stack[]).map((key) => (
-              <option key={key} value={key}>
-                {stacks[key].label}
-              </option>
-            ))}
-          </select>
-        </div>
+            Components
+          </button>
+          <button
+            className={page === 'docs' ? 'nav-item active' : 'nav-item'}
+            onClick={() => setPage('docs')}
+          >
+            Documentation
+          </button>
+        </nav>
+      </aside>
 
-        {stack === 'react' ? (
-          <LanguageProvider>
-            <LoginPage />
-          </LanguageProvider>
+      <main className="main-content">
+        {page === 'docs' ? (
+          <DocumentationPage />
         ) : (
-          <div style={{ padding: 24, color: '#666' }}>
-            <p>Live preview available for React examples.</p>
-            <p>Select a file on the right to view the {current.label} source.</p>
+          <div className="components-view">
+            <div className="preview">
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+                <h2 style={{ margin: 0 }}>Components</h2>
+                <select
+                  value={stack}
+                  onChange={(e) => handleStackChange(e.target.value as Stack)}
+                  className="language-switcher"
+                  aria-label="Select language / framework"
+                >
+                  {(Object.keys(stacks) as Stack[]).map((key) => (
+                    <option key={key} value={key}>
+                      {stacks[key].label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {stack === 'react' ? (
+                <LanguageProvider>
+                  <LoginPage />
+                </LanguageProvider>
+              ) : (
+                <div style={{ padding: 24, color: '#666' }}>
+                  <p>Live preview available for React examples.</p>
+                  <p>Select a file on the right to view the {current.label} source.</p>
+                </div>
+              )}
+            </div>
+            <div className="code">
+              <div className="tabs">
+                {files.map((f, i) => (
+                  <button
+                    key={f.name}
+                    className={i === activeFile ? 'active' : ''}
+                    onClick={() => setActiveFile(i)}
+                  >
+                    {f.name}
+                  </button>
+                ))}
+              </div>
+              <SyntaxHighlighter language={files[activeFile].lang} style={vscDarkPlus} customStyle={{ margin: 0, background: 'transparent' }}>
+                {files[activeFile].code}
+              </SyntaxHighlighter>
+            </div>
           </div>
         )}
-      </div>
-      <div className="code">
-        <div className="tabs">
-          {files.map((f, i) => (
-            <button
-              key={f.name}
-              className={i === activeFile ? 'active' : ''}
-              onClick={() => setActiveFile(i)}
-            >
-              {f.name}
-            </button>
-          ))}
-        </div>
-        <SyntaxHighlighter language={files[activeFile].lang} style={vscDarkPlus} customStyle={{ margin: 0, background: 'transparent' }}>
-          {files[activeFile].code}
-        </SyntaxHighlighter>
-      </div>
+      </main>
     </div>
   )
 }
