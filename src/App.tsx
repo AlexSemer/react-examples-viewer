@@ -4,7 +4,6 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import LoginPage from './examples/react/login/components/LoginPage'
 import { LanguageProvider } from './examples/react/login/i18n/LanguageContext'
 import DocumentationPage from './pages/DocumentationPage'
-import SkillsPage from './pages/SkillsPage'
 
 // Raw imports for React login
 import loginPageSrc from './examples/react/login/components/LoginPage.tsx?raw'
@@ -29,7 +28,7 @@ import pyMainSrc from './examples/python/main.py?raw'
 import pyRoutesSrc from './examples/python/routes.py?raw'
 
 type Stack = 'react' | 'nextjs' | 'nodejs' | 'python';
-type Page = 'components' | 'docs' | 'skills';
+type Page = 'components' | 'docs';
 
 const stacks: Record<Stack, { label: string; files: { name: string; code: string; lang: string }[] }> = {
   react: {
@@ -98,20 +97,12 @@ export default function App() {
           >
             Documentation
           </button>
-          <button
-            className={page === 'skills' ? 'nav-item active' : 'nav-item'}
-            onClick={() => setPage('skills')}
-          >
-            Skills
-          </button>
         </nav>
       </aside>
 
       <main className="main-content">
         {page === 'docs' ? (
           <DocumentationPage />
-        ) : page === 'skills' ? (
-          <SkillsPage />
         ) : (
           <div className="components-view">
             <div className="preview">
