@@ -150,6 +150,26 @@ body {
   color: var(--color-primary);
 }
 
+.skill-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.skill-card h3 {
+  margin: 0 0 var(--space-sm) 0;
+  font-size: var(--font-size-lg);
+  color: var(--color-primary);
+}
+
+.skill-card p {
+  margin: 0;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
 .tabs {
   display: flex;
   gap: var(--space-sm);
