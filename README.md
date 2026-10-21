@@ -1,12 +1,11 @@
-# Examples Viewer
+# Dev Standards Hub
 
-Multi-language / multi-framework examples gallery with live preview (where possible) and code viewer.
+Multi-language examples, shared coding standards & practices, and studio skills for bots and developers.
 
-Supported stacks:
-- **React** — modular login with i18n + design tokens (live preview)
-- **Next.js** — App Router login, API route, middleware
-- **Node.js / Express** — API endpoints, routing, auth middleware
-- **Python / FastAPI** — typed models, routes, dependencies
+## Sections
+- **Components** — live preview + code for React, Next.js, Node.js/Express, Python/FastAPI
+- **Documentation** — coding standards, SOLID, API design, React/TS conventions, rules for bots
+- **Skills** — studio pipeline roles (PM, Analyst, Architect, Dev, Reviews, QA) and research/ninja cell skills
 
 ## Run locally
 ```bash
@@ -15,4 +14,4 @@ npm run dev
 ```
 
 ## Deploy
-Vercel-ready (Vite + React viewer).
+Vercel-ready (Vite + React).
