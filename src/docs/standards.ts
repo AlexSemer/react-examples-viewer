@@ -33,6 +33,92 @@ export const docs = {
       `.trim(),
     },
     {
+      heading: 'Feature / Domain Folder Structure',
+      content: `
+- Prefer feature folders: `features/auth/`, `features/billing/` containing their own components, hooks, api, types, and tests.
+- Shared code lives in `shared/` or `lib/` — only promote when used by 2+ features.
+- Avoid deep nesting. Keep feature internals flat when possible.
+- UI components that are truly generic go in `components/ui/` (or design system package).
+- Data access and business logic stay inside the feature or a dedicated domain layer.
+- This structure prevents “utils god file” and makes later extraction or reuse straightforward.
+      `.trim(),
+    },
+    {
+      heading: 'Error & Result Patterns',
+      content: `
+- Prefer a Result type over throwing or returning null/undefined for expected failures:
+  `{ ok: true; data: T } | { ok: false; error: { code: string; message: string; details?: unknown } }`
+- Use this for API responses, form validation, domain operations, and any fallible step.
+- Throw only for truly unexpected/programmer errors (or let them bubble to a global handler).
+- Discriminated unions make error handling exhaustive and type-safe.
+- Consistent error shape across frontend and backend reduces mapping code later.
+      `.trim(),
+    },
+    {
+      heading: 'Validation & Schemas',
+      content: `
+- Use Zod (or equivalent) for all external input: API bodies, query params, forms, env vars, config.
+- Infer types from schemas: `type User = z.infer<typeof userSchema>`.
+- Co-locate schema + type with the feature that owns it.
+- Validate at the boundary (API route, form submit, env load). Trust internal data after that.
+- Never trust client data. Fail fast with clear error messages.
+- Adding validation later is expensive; do it from the start.
+      `.trim(),
+    },
+    {
+      heading: 'Configuration & Environment',
+      content: `
+- Centralize config in one module (`config.ts` / `settings.py`) that reads and validates env vars at startup.
+- Export a typed config object. No scattered `process.env.FOO` or `os.getenv` in business logic.
+- Validate required variables and fail fast if missing or invalid.
+- Support different environments via env files or secrets manager, not code branches.
+- Makes swapping environments, adding settings, or testing configuration trivial.
+      `.trim(),
+    },
+    {
+      heading: 'Data Fetching & Caching',
+      content: `
+- Pick one pattern and stick to it (TanStack Query / React Query preferred for React).
+- Query keys live in a central place or co-located with the feature.
+- Handle loading, error, and empty states explicitly in UI.
+- Use optimistic updates sparingly and with rollback.
+- Invalidate or update cache deliberately after mutations.
+- Abstract the fetch client so the rest of the app does not depend on the HTTP library.
+      `.trim(),
+    },
+    {
+      heading: 'Accessibility & i18n',
+      content: `
+- All interactive elements have accessible names (labels, aria-label).
+- Keyboard navigable and visible focus states.
+- Sufficient color contrast.
+- Strings live in translation catalogs / message files, never hardcoded in components.
+- Use a simple i18n setup from day one (even if only one language initially).
+- Retrofitting a11y or i18n is costly; design for them early.
+      `.trim(),
+    },
+    {
+      heading: 'Logging & Observability',
+      content: `
+- Structured logging (JSON) with levels: debug, info, warn, error.
+- Include a request/trace ID on every log that crosses a boundary.
+- Never log PII, secrets, or full request bodies by default.
+- Log errors with context (user id if safe, operation, input summary) at the boundary.
+- Frontend: log unexpected errors to a service; avoid console.log in production paths.
+- Makes debugging production issues without adding logging later.
+      `.trim(),
+    },
+    {
+      heading: 'Dependency Rules (Architecture)',
+      content: `
+- Features may import from `shared/` and `lib/`, but not from each other.
+- UI layer does not import directly from data access or external APIs.
+- Domain/business logic has no UI or framework dependencies.
+- Enforce with lint rules or folder conventions so violations are caught early.
+- Clear layer boundaries prevent circular dependencies and big refactors when extracting or testing.
+      `.trim(),
+    },
+    {
       heading: 'Formatting & Style',
       content: `
 - Enforce formatting with Prettier (or equivalent). Never debate tabs vs spaces in reviews.
@@ -100,6 +186,7 @@ export const docs = {
 - Do not introduce new patterns without a clear reason. Match existing project conventions.
 - Always type new TypeScript code strictly. Run the type checker before considering work done.
 - Keep examples modular and reusable — this viewer exists so future projects can copy clean patterns.
+- Reference this Dev Standards Hub for patterns before inventing new ones.
       `.trim(),
     },
   ],
